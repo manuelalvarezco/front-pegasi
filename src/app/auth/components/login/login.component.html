@@ -1,0 +1,35 @@
+<div class="login">
+  <div class="logo">
+    <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/275793/large_velatral.png" alt="logo">
+  </div>
+  <div class="form">
+    <div class="form-logo">
+      <h2>Login</h2>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+               placeholder="Ex. pat@example.com">
+        <mat-error *ngIf="emailField.hasError('email') && !emailField.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailField.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password">
+        <mat-error *ngIf="passwordField.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Login</button>
+      <div class="register">
+        <p>or</p>
+        <a routerLink="register">Register</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="login">
+  <div class="logo">
+    <img src="https://www.brandbucket.com/sites/default/files/logo_uploads/275793/large_velatral.png" alt="logo">
+  </div>
+  <div class="form">
+    <div class="form-logo">
+      <h2>Register</h2>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <div class="fullname">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="name"
+            [errorStateMatcher]="matcher"
+            placeholder="Name"
+          />
+          <mat-error
+            *ngIf="
+              namelField.hasError('name') && !namelField.hasError('required')
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="namelField.hasError('required')">
+            Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Lastname</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="lastname"
+            [errorStateMatcher]="matcher"
+            placeholder="Lastname"
+          />
+          <mat-error
+            *ngIf="
+              lastnameField.hasError('lastname') &&
+              !lastnameField.hasError('required')
+            "
+          >
+            Please enter a valid lastname address
+          </mat-error>
+          <mat-error *ngIf="lastnameField.hasError('required')">
+            Lastname is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="age">
+        <mat-form-field appearance="fill">
+          <mat-label>Age</mat-label>
+          <mat-select formControlName="age">
+            <mat-option *ngFor="let age of ages" [value]="age.value">
+              {{ age.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Phone</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="phone"
+            [errorStateMatcher]="matcher"
+            placeholder="Name"
+          />
+          <mat-error
+            *ngIf="
+              namelField.hasError('phone') && !namelField.hasError('required')
+            "
+          >
+            Please enter a valid phone address
+          </mat-error>
+          <mat-error *ngIf="namelField.hasError('required')">
+            Phone is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="birthday">
+        <mat-form-field appearance="fill">
+          <mat-label>Birthday</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birthday" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="gender">
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="gender"
+          >
+            <mat-radio-button value="1">Male</mat-radio-button>
+            <mat-radio-button value="2">Female</mat-radio-button>
+          </mat-radio-group>
+          <mat-slide-toggle formControlName="type">pregnancy</mat-slide-toggle>
+        </div>
+
+      </div>
+
+      <button mat-raised-button color="primary">Register</button>
+      <div class="register">
+        <p>or</p>
+        <a routerLink="/auth">Login</a>
+      </div>
+    </form>
+  </div>
+</div>
