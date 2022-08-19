@@ -6,7 +6,9 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../../app.reducer';
 import * as ui from '../../../shared/ui.actions';
-
+import { AuthService } from '../../services/auth.service';
+import * as authActions from '../../auth.actions';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -41,7 +43,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private authservice: AuthService,
+    private _snackBar: MatSnackBar
     ) { }
 
   ngOnInit(): void {
@@ -79,6 +83,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.form.get('gender');
   }
 
+  get birthdayField(){
+    return this.form.get('birthday');
+  }
+
 
 
   private buildForm(){
@@ -90,7 +98,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       age:['', [Validators.required]],
       gender:['', [Validators.required]],
       type:[''],
-      birthday:['', [Validators.required]],
+      birdhday:['', [Validators.required]],
       phone:['', [Validators.required]],
     });
 
@@ -109,15 +117,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.form.value);
-
-
     this.store.dispatch(ui.isLoading())
 
-    setTimeout(() => {
-      this.store.dispatch(ui.stopLoading())
-      //this.router.navigate(['dashboard'])
-    }, 5000);
+    this.authservice.register(this.form.value).subscribe(
+      usuario => {
+        this.store.dispatch(ui.stopLoading())
+        this.store.dispatch( authActions.setUser({ user: usuario }))
+        this.router.navigate(['dashboard'])
+      }, err => {
+        this.store.dispatch(ui.stopLoading())
+        this._snackBar.open('Error in register!', 'OK');
+      }
+    )
   }
 
   ngOnDestroy(): void {

@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(!usuario.user){
         this.router.navigate(['/'])
       }
-      this.user = usuario.user;
+      this.user = usuario.user?.user;
     })
   }
 

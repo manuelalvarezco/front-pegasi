@@ -2,11 +2,12 @@
   <mat-card>Welcome</mat-card>
   <mat-card class="example-card" *ngIf="user">
     <mat-card-title>{{ user.name }} {{ user.lastname }}</mat-card-title>
-    <mat-card-subtitle>{{ user.birdhday }} | {{ user.age }} years</mat-card-subtitle>
+    <mat-card-subtitle>{{ user.birdhday | date }} | {{ user.age }} years</mat-card-subtitle>
     <mat-card-content>
       <p>Email: {{ user.email }}</p>
       <p>Phone: {{ user.phone }}</p>
       <p>Gender: {{ user.gender }}</p>
+      <p>Pregnancy: {{ user.pregnancy ? 'Verdadero' : 'Falso' }}</p>
     </mat-card-content>
   </mat-card>
   <button color="primary" mat-raised-button routerLink="/">Logout</button>

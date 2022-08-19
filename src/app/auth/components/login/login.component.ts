@@ -70,28 +70,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(ui.isLoading())
 
-    this.auth.login(this.form.value)
-    .subscribe({
-      complete: () => {
-        const user: User = {
-          name: 'Manuel',
-          lastname: 'Alvarez',
-          email: 'alvarezbautista.luis@gmail.com',
-          password: '123456',
-          birdhday: '29/12/1989',
-          age: 32,
-          gender: 'Male',
-          phone: '3002099571'
-        }
+    this.auth.login(this.form.value).subscribe(
+      usuario => {
         this.store.dispatch(ui.stopLoading())
-        this.store.dispatch( authActions.setUser({ user: user }))
+        this.store.dispatch( authActions.setUser({ user: usuario }))
         this.router.navigate(['dashboard'])
-      },
-      error: () => {
+      }, err => {
         this.store.dispatch(ui.stopLoading())
         this._snackBar.open('User or password incorrect!', 'OK');
       }
-    })
+    )
   }
 
   ngOnDestroy(): void {
