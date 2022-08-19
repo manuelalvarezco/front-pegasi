@@ -7,6 +7,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 const material: any[] = [
   MatInputModule,
@@ -16,7 +19,9 @@ const material: any[] = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSlideToggleModule,
-  MatCardModule
+  MatCardModule,
+  MatProgressBarModule,
+  MatSnackBarModule
 ]
 
 @NgModule({

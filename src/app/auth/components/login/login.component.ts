@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from '../../../app.reducer';
+import * as ui from '../../../shared/ui.actions';
+import * as authActions from '../../auth.actions';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../../models/User.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
-/** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -16,15 +24,27 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  form:any;
+export class LoginComponent implements OnInit, OnDestroy {
+  form: any;
+  loading = false;
+  uiSub: Subscription= new Subscription();
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private store: Store<AppState>,
+    private _snackBar: MatSnackBar
+    ) { }
+
 
   ngOnInit(): void {
     this.buildForm();
+    this.uiSub = this.store.select('ui').subscribe(ui => {
+      this.loading = ui.isLoading;
+    })
   }
 
   get emailField(){
@@ -44,7 +64,38 @@ export class LoginComponent implements OnInit {
 
 
   login(){
-    console.log(this.form.value);
+    if(!this.form.valid){
+      return;
+    }
+
+    this.store.dispatch(ui.isLoading())
+
+    this.auth.login(this.form.value)
+    .subscribe({
+      complete: () => {
+        const user: User = {
+          name: 'Manuel',
+          lastname: 'Alvarez',
+          email: 'alvarezbautista.luis@gmail.com',
+          password: '123456',
+          birdhday: '29/12/1989',
+          age: 32,
+          gender: 'Male',
+          phone: '3002099571'
+        }
+        this.store.dispatch(ui.stopLoading())
+        this.store.dispatch( authActions.setUser({ user: user }))
+        this.router.navigate(['dashboard'])
+      },
+      error: () => {
+        this.store.dispatch(ui.stopLoading())
+        this._snackBar.open('User or password incorrect!', 'OK');
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.uiSub.unsubscribe()
   }
 
 }

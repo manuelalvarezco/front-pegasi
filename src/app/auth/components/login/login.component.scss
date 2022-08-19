@@ -21,7 +21,6 @@
   flex-direction: column;
   &>form{
     width: 600px;
-    background: aliceblue;
     border-radius: 8px;
     padding: 8px;
     padding: 30px;
@@ -35,7 +34,7 @@
   }
 }
 
-.register {
+.options {
   text-align: center;
   &>p{
     font-size: 12px;
@@ -44,4 +43,13 @@
     text-decoration: none;
     color: #832D7C;
   }
+}
+
+
+.spiner {
+  margin: 10px auto;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

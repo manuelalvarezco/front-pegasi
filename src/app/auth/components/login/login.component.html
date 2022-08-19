@@ -25,8 +25,11 @@
           Password is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary">Login</button>
-      <div class="register">
+      <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary">Login</button>
+      <div class="spiner" *ngIf="loading">
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </div>
+      <div class="options">
         <p>or</p>
         <a routerLink="register">Register</a>
       </div>
