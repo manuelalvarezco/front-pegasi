@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ];
   loading = false;
   uiSub: Subscription = new Subscription();
+  disableSlide = false;
 
   constructor(
     private fb: FormBuilder,
@@ -70,17 +71,35 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.form.get('password');
   }
 
+  get typeField(){
+    return this.form.get('type');
+  }
+
+  get genderField(){
+    return this.form.get('gender');
+  }
+
+
+
   private buildForm(){
     this.form = this.fb.group({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      age: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
-      type: new FormControl('', [Validators.required]),
-      birthday: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required]),
+      name:['', [Validators.required]],
+      email:['', [Validators.required, Validators.email]],
+      password:['', [Validators.required]],
+      lastname:['', [Validators.required]],
+      age:['', [Validators.required]],
+      gender:['', [Validators.required]],
+      type:[''],
+      birthday:['', [Validators.required]],
+      phone:['', [Validators.required]],
+    });
+
+    this.genderField.valueChanges.subscribe((value: string) => {
+      if(value === 'male'){
+        this.disableSlide = true;
+      }else{
+        this.disableSlide = false;
+      }
     })
   }
 
@@ -90,11 +109,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
+    console.log(this.form.value);
+
+
     this.store.dispatch(ui.isLoading())
 
     setTimeout(() => {
       this.store.dispatch(ui.stopLoading())
-      this.router.navigate(['dashboard'])
+      //this.router.navigate(['dashboard'])
     }, 5000);
   }
 

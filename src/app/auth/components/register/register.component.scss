@@ -1,6 +1,7 @@
 .logo{
   text-align: center;
 }
+
 .register {
   background: #832D7C;
   width: 100%;
@@ -32,6 +33,10 @@
       margin-top: 20px;
     }
   }
+}
+
+.form-logo > h2 {
+  margin: 5px 0;
 }
 
 .options {

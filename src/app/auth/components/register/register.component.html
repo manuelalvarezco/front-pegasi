@@ -59,7 +59,7 @@
         >
           Please enter a valid Email address
         </mat-error>
-        <mat-error *ngIf="phoneField.hasError('required')">
+        <mat-error *ngIf="emailField.hasError('required')">
           Email is <strong>required</strong>
         </mat-error>
       </mat-form-field>
@@ -71,7 +71,7 @@
           formControlName="password"
           [errorStateMatcher]="matcher"
         />
-        <mat-error *ngIf="phoneField.hasError('required')">
+        <mat-error *ngIf="passwordField.hasError('required')">
           Email is <strong>required</strong>
         </mat-error>
       </mat-form-field>
@@ -95,7 +95,7 @@
           />
           <mat-error
             *ngIf="
-            phoneField.hasError('phone') && !namelField.hasError('required')
+            phoneField.hasError('phone') && !phoneField.hasError('required')
             "
           >
             Please enter a valid phone address
@@ -120,10 +120,10 @@
             aria-label="Select an option"
             formControlName="gender"
           >
-            <mat-radio-button value="1">Male</mat-radio-button>
-            <mat-radio-button value="2">Female</mat-radio-button>
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
           </mat-radio-group>
-          <mat-slide-toggle formControlName="type">pregnancy</mat-slide-toggle>
+          <mat-slide-toggle [disabled]="disableSlide" formControlName="type">pregnancy</mat-slide-toggle>
         </div>
 
       </div>
@@ -139,6 +139,3 @@
     </form>
   </div>
 </div>
-
-
-<p> {{ form.valid | json}} </p>
